@@ -27,6 +27,10 @@ const App = {
   bindEvents: function(){},
   render: function(){
     this.root.innerHTML = '';
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset';
+    resetButton.addEventListener('click', () => this.resetGrid());
+    this.root.appendChild(resetButton);
     this.grid.forEach((row, rowIndex) => {
       const rowContainer = document.createElement('div');
       rowContainer.style.height = `${this.cellHeight}px`;
@@ -37,6 +41,11 @@ const App = {
       });
       this.root.appendChild(rowContainer);
     });
+  },
+  resetGrid: function() {
+    this.selectedColor='white';
+    this.makeGrid();
+    this.render();
   },
   changeColor: function(rowIndex, colIndex) {
     const cell = this.grid[rowIndex][colIndex];
