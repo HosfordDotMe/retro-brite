@@ -23,14 +23,26 @@ const App = {
   },
   cacheDOM: function(){
     this.root = document.querySelector(this.rootElement);
+    this.colorButtons = this.root.querySelectorAll('button.color');
+    this.gridOutput = this.root.querySelector('.gridOutput');
   },
-  bindEvents: function(){},
+  bindEvents: function(){
+    this.colorButtons.forEach(btn => {
+      const newColor = btn.classList[1];
+      btn.addEventListener('click', () => this.setColor(newColor));
+  });
+},
+setColor: function(newColor){
+  this.selectedColor = newColor;
+},
   render: function(){
-    this.root.innerHTML = '';
+    this.gridOutput.innerHTML = '';
+
     const resetButton = document.createElement('button');
     resetButton.textContent = 'Reset';
     resetButton.addEventListener('click', () => this.resetGrid());
-    this.root.appendChild(resetButton);
+    this.gridOutput.appendChild(resetButton);
+
     this.grid.forEach((row, rowIndex) => {
       const rowContainer = document.createElement('div');
       rowContainer.style.height = `${this.cellHeight}px`;
@@ -39,7 +51,7 @@ const App = {
         element.addEventListener('click', () => this.changeColor(rowIndex, colIndex));
         rowContainer.appendChild(element);
       });
-      this.root.appendChild(rowContainer);
+      this.gridOutput.appendChild(rowContainer);
     });
   },
   resetGrid: function() {
